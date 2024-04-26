@@ -9,12 +9,17 @@ async function getPokemonData(){
 	let responseData = await response.json();
 	let result = responseData;
 
+    // let promiseResponse = await fetch(fullApiUrl).then(data => {
+	// 	return data.json();
+	// })
+	// result = promiseResponse;
+    
 	return result;
 }
 
 
 async function putDataOnPage(){
-
+    document.getElementsByClassName("pokemonName")[0].textContent = dataToDisplay.name;
 }
 
 async function getAndDisplayPokemonData(){
