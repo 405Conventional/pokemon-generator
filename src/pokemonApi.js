@@ -148,7 +148,7 @@ async function showTeamData(teamToDisplay) {
 
         // Play Sound button
         let playSoundButton = document.createElement("button");
-        playSoundButton.textContent = "Play Sound";
+        playSoundButton.textContent = "Play Pokémon Cry";
         playSoundButton.className = "btn btn-primary"; // Using DaisyUI button classes
         playSoundButton.onclick = function() {
             // Add functionality to play the Pokémon cry
