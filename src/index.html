@@ -8,35 +8,36 @@
 </head>
 <body>
 	
-	<h1 class="border-4 border-emerald-600 text-center mb-1 text-xl">
+	<h1 class="border-4 border-emerald-600 text-white text-center mb-1 text-xl">
 		Choose Your Pokémon!
 	  </h1>
+	<div class="flex w-full" id="top-menu">
+		<button class="w-1/5 h-16 text-base" id="create-encounter">Encounter a Pokemon!</button>
+		<button class="w-4/5 h-16 text-base" id="create-team">Create a team</button>
+	</div>
 
-	<div class="pokemonImage">
+	<div class="flex w-full" id="wrapper">
+		<div class="w-1/5 h-16 bg-emerald-950 flex flex-col items-center p-4" id="sidebar">Single Pokemon
+			<div>
+				<div class="pokemonImage">
+					<img src="" alt="The image or sprite of the Pokemon you encountered!"/>
+				</div>
+				<div class="pokemonName"></div>
+				<div class="pokemonType1"></div>
+				<div class="pokemonType2"></div>
+				<button class="text-base" class="pokemonCry">
+					<audio src=""></audio>
+					Pokemon Cry
+				</button>
+			</div>
+		</div>
+		<div class="w-4/5 h-16 bg-emerald-800" id="Main">Pokemon Team
+			<section class="grid grid-cols-3 gap-4" id="team-display">
+				
+			</section>
+		</div>
+	</div>
 
-
-        <img src="" alt="The image or sprite of the Pokemon you encountered!"/>
-
-
-
-    </div>
-    <div class="pokemonName"></div>
-    <div class="pokemonType1"></div>
-    <div class="pokemonType2"></div>
-
-	<button class="text-base" class="pokemonCry">
-		<audio src=""></audio>
-		Pokemon Cry
-	</button>
-
-
-    <button class="text-base" id="create-encounter">Encounter a Pokemon!</button>
-
-
-	<button class="text-base" id="create-team">Create a team</button>
-	<section id="team-display">
-
-	</section>
 
 	<script src="./pokemonApi.js">
 
