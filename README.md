@@ -1,4 +1,5 @@
 # Pokémon Encounter and Team Generator
+![desktop](./img/desktop.png)
 ## What is this project?
 This project is a Pokémon-themed web application that allows users to interact with Pokémon data dynamically. 
 It has two main features:
@@ -19,11 +20,6 @@ The layout is responsive, making it suitable for both mobile and desktop devices
 
 ### Deployment:
 [Netlify](https://x-pokemon-generator.netlify.app/)
-
-### Screenshots:
-[mobile](./img/mobile.png)
-[desktop](./img/desktop.png)
-
 
 ## To-Do 
 - [x] Cries
