@@ -1,6 +1,14 @@
 document.getElementById("create-encounter").addEventListener("click", getAndDisplayPokemonData);
 document.getElementById("create-team").addEventListener("click", getAndShowTeamData);
 
+
+/**
+ * Asynchronously fetches data of a random Pokémon from the PokéAPI
+ * @author Xander
+ *
+ * @async
+ * @returns {result} Asynchronously fetches data of a random Pokémon from the PokéAPI.
+ */
 async function getPokemonData(){
 	let pokemonApiUrlBase = "https://pokeapi.co/api/v2/pokemon/"
 
@@ -19,6 +27,15 @@ async function getPokemonData(){
 	return result;
 }
 
+
+/**
+ * Updates the display on the page with the given Pokémon data, including name, types, image, and audio
+ * @author Xander
+ *
+ * @async
+ * @param {*} dataToDisplay The data of a Pokémon to be displayed on the page
+ * @returns {*} Updates the display on the page with the given Pokémon data, including name, types, image, and audio
+ */
 async function putDataOnPage(dataToDisplay) {
     // Update the Pokémon name
     document.getElementsByClassName("pokemonName")[0].textContent = dataToDisplay.name;
@@ -78,6 +95,13 @@ async function getAndDisplayPokemonData(){
 // pokemonButton.addEventListener("click", getAndDisplayPokemonData);
 
 
+/**
+ * generates team data by fetching data for six Pokemon using the getPokemonData function
+ * @author Xander
+ *
+ * @async
+ * @returns {unknown} Asynchronously generates team data by fetching data for six Pokemon using the getPokemonData function and returning an array of promises that resolve with the Pokemon data.
+ */
 async function generateTeamData(){
 	
 
@@ -104,6 +128,15 @@ async function generateTeamData(){
 	return promiseAllResult;
 }
 
+
+/**
+ * displays team data by generating card elements for each Pokémon in the provided teamToDisplay array
+ * @author Xander
+ *
+ * @async
+ * @param {*} teamToDisplay An array of Pokemon data to display in the team display section
+ * @returns {*} Asynchronous function that displays team data by generating card elements for each Pokémon in the provided teamToDisplay array. Each card includes an image, name, types, and a button to play the Pokémon cry sound. The team data is displayed on the web page in the 'team-display' section.
+ */
 async function showTeamData(teamToDisplay) {
     let teamDisplaySection = document.getElementById("team-display");
     // Clear the existing content
@@ -120,13 +153,13 @@ async function showTeamData(teamToDisplay) {
 
         // Pokemon image
         let imageElement = document.createElement("img");
-        imageElement.className = "card-image h-48 object-cover w-full"; // Tailwind classes for the image
-        imageElement.src = pokemon.sprites.front_default; // Add the source for the image
+        imageElement.className = "card-image h-48 object-cover w-full"; 
+        imageElement.src = pokemon.sprites.front_default; 
         cardContent.appendChild(imageElement);
 
         // Pokemon name and types
         let nameElement = document.createElement("h2");
-        nameElement.className = "card-title"; // Using DaisyUI card-title class
+        nameElement.className = "card-title"; 
         nameElement.textContent = pokemon.name;
         cardContent.appendChild(nameElement);
 
@@ -144,15 +177,15 @@ async function showTeamData(teamToDisplay) {
 
         // Card actions (button container)
         let cardActions = document.createElement("div");
-        cardActions.className = "card-actions justify-end p-4"; // Using DaisyUI card-actions class
+        cardActions.className = "card-actions justify-end p-4"; 
 
         // Play Sound button
         let playSoundButton = document.createElement("button");
         playSoundButton.textContent = "Play Pokémon Cry";
-        playSoundButton.className = "btn btn-primary"; // Using DaisyUI button classes
+        playSoundButton.className = "btn btn-primary";
         playSoundButton.onclick = function() {
             // Add functionality to play the Pokémon cry
-            let audio = new Audio(pokemon.cries.latest); // Replace with the correct property if different
+            let audio = new Audio(pokemon.cries.latest); nt
             audio.play();
         };
 
@@ -166,6 +199,13 @@ async function showTeamData(teamToDisplay) {
 
 
 
+/**
+ * asynchronously fetches team data and then logs and displays
+ * @author Xander
+ *
+ * @async
+ * @returns {*} A function that asynchronously fetches team data and then logs and displays the team data.
+ */
 async function getAndShowTeamData(){
 	let teamData = await generateTeamData();
 	console.log(teamData);
@@ -174,7 +214,7 @@ async function getAndShowTeamData(){
 
 
 
-// Load a single Pokémon on page load
+// Load Pokémon on page load
 document.addEventListener('DOMContentLoaded', function() {
     getAndDisplayPokemonData();
     getAndShowTeamData();
