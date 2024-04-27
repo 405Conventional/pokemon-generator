@@ -19,62 +19,51 @@ async function getPokemonData(){
 	return result;
 }
 
-async function putDataOnPage(dataToDisplay){
-	document.getElementsByClassName("pokemonName")[0].textContent = dataToDisplay.name;
+async function putDataOnPage(dataToDisplay) {
+    // Update the Pokémon name
+    document.getElementsByClassName("pokemonName")[0].textContent = dataToDisplay.name;
 
-	let type1Display = document.getElementsByClassName("pokemonType1")[0];
-	let type2Display = document.getElementsByClassName("pokemonType2")[0];
+    // Update the Type 1 display
+    let type1Display = document.getElementsByClassName("pokemonType1")[0];
+    type1Display.textContent = "Type 1: " + dataToDisplay.types[0].type.name;
 
-	type1Display.textContent = "Type 1: " + dataToDisplay.types[0].type.name;
-	// type1Display.textContent = data.types[0]["type"]["name"];
+    // Update the Type 2 display
+    let type2Display = document.getElementsByClassName("pokemonType2")[0];
+    if (dataToDisplay.types[1]) {
+        // If the data includes a second type, set and display it
+        type2Display.textContent = "Type 2: " + dataToDisplay.types[1].type.name;
+        type2Display.style.display = ""; // Ensure the element is visible
+    } else {
+        // If no second type exists, clear and hide the Type 2 display
+        type2Display.textContent = "";
+        type2Display.style.display = "none"; // Hide the element
+    }
 
-	if (dataToDisplay.types[1]){
-		// if the data includes a 2nd type, set that as well 
-		type2Display.textContent = "Type 2: " + dataToDisplay.types[1].type.name;
-	} else {
-		// if no 2nd type exists, reset the content in type2Display
-		type2Display.textContent = "Type 2: ";
+    // Manage the Pokémon image display, including shiny chance
+    let imageContainer = document.getElementsByClassName("pokemonImage")[0];
+    let imageElement = imageContainer.getElementsByTagName("IMG")[0];
+    let oddsUpperLimit = 4; // Testing/development odds - real odds are 1 in 8,192
+    let shinyResult = Math.floor(Math.random() * oddsUpperLimit) + 1;
+    if (shinyResult === 1) {
+        imageElement.src = dataToDisplay.sprites.front_shiny;
+        console.log("Shiny Pokemon found!");
+    } else {
+        imageElement.src = dataToDisplay.sprites.front_default;
+    }
 
-	}
-	
+    let pokemonAudioElement = document.querySelector(".pokemonCry audio");
+    if (!pokemonAudioElement) {
+        console.error("Audio element not found!");
+        return;
+    }
+    pokemonAudioElement.src = dataToDisplay.cries.latest;
 
-	// Real odds are 1 in 8192 
-	// Testing/development odds are 1 in 4
-	// Generate random number between 1 and [odds upper limt]
-	// If number is 1, show shiny
-	// Else, show default
-
-	let imageContainer = document.getElementsByClassName("pokemonImage")[0];
-	let imageElement = imageContainer.getElementsByTagName("IMG")[0];
-
-	let oddsUpperLimit = 4;
-	let shinyResult = Math.floor(Math.random() * oddsUpperLimit) + 1;
-
-	if (shinyResult == 1 ) {
-		imageElement.src = dataToDisplay.sprites.front_shiny;
-		console.log("Shiny Pokemon found!");
-	} else {
-		imageElement.src = dataToDisplay.sprites.front_default;
-	}
-
-	
-
-	// document.querySelector(".pokemonImage img").src = dataToDisplay.sprites.front_default;
-
-
-
-	let cryURL = dataToDisplay.cries.latest;
-    let pokemonAudioElement = document.querySelector(".pokemonCry audio")
-	pokemonAudioElement.src = cryURL;
-
-	let pokemonAudioPlayButton = document.querySelector(".pokemonCry");
-	pokemonAudioPlayButton.addEventListener("click", () => {
-	pokemonAudioElement.volume = 0.1;
-	pokemonAudioElement.play();
-	});
-
-
-
+    let pokemonAudioPlayButton = document.querySelector(".pokemonCry");
+    if (pokemonAudioPlayButton) {
+        pokemonAudioPlayButton.onclick = () => {
+            pokemonAudioElement.play();
+        };
+    }
 }
 
 // Button calls this
