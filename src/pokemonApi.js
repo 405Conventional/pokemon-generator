@@ -185,7 +185,7 @@ async function showTeamData(teamToDisplay) {
         playSoundButton.className = "btn btn-primary";
         playSoundButton.onclick = function() {
             // Add functionality to play the Pokémon cry
-            let audio = new Audio(pokemon.cries.latest); nt
+            let audio = new Audio(pokemon.cries.latest); 
             audio.play();
         };
 
