@@ -1,3 +1,5 @@
+document.getElementById("create-encounter").addEventListener("click", getAndDisplayPokemonData);
+document.getElementById("create-team").addEventListener("click", getAndShowTeamData);
 
 async function getPokemonData(){
 	let pokemonApiUrlBase = "https://pokeapi.co/api/v2/pokemon/"
@@ -36,8 +38,6 @@ async function putDataOnPage(dataToDisplay){
 	}
 	
 
-	// Wishlist: add random chance to select front_shiny instead of front_default
-
 	// Real odds are 1 in 8192 
 	// Testing/development odds are 1 in 4
 	// Generate random number between 1 and [odds upper limt]
@@ -69,8 +69,8 @@ async function putDataOnPage(dataToDisplay){
 
 	let pokemonAudioPlayButton = document.querySelector(".pokemonCry");
 	pokemonAudioPlayButton.addEventListener("click", () => {
-		pokemonAudioElement.volume = 0.1;
-		pokemonAudioElement.play();
+	pokemonAudioElement.volume = 0.1;
+	pokemonAudioElement.play();
 	});
 
 
@@ -84,9 +84,6 @@ async function getAndDisplayPokemonData(){
 
 	putDataOnPage(data);
 }
-
-document.getElementById("create-encounter").addEventListener("click", getAndDisplayPokemonData);
-
 
 // let pokemonButton = document.getElementById("create-encounter");
 // pokemonButton.addEventListener("click", getAndDisplayPokemonData);
@@ -118,78 +115,67 @@ async function generateTeamData(){
 	return promiseAllResult;
 }
 
-async function showTeamData(teamToDisplay){
-	let teamDisplaySection = document.getElementById("team-display");
-	teamDisplaySection.innerHTML = "";
+async function showTeamData(teamToDisplay) {
+    let teamDisplaySection = document.getElementById("team-display");
+    // Clear the existing content
+    teamDisplaySection.innerHTML = "";
 
-	teamToDisplay.forEach((pokemon) => {
+    teamToDisplay.forEach((pokemon) => {
+        // Card container
+        let card = document.createElement("div");
+        card.className = "card w-full bg-base-100 shadow-xl flex flex-col"; // Using DaisyUI card and flex classes
 
-		let newPokemonCard = document.createElement("div");
+        // Card content
+        let cardContent = document.createElement("div");
+        cardContent.className = "card-body flex-grow"; // Using DaisyUI card-body class
 
-		// Pokemon Name
-		let pokemonNameTitle = document.createElement("h3");
-		pokemonNameTitle.textContent = pokemon.name;
-		newPokemonCard.appendChild(pokemonNameTitle);
-
-        // Pokemon image and shiny chance
-        let imageContainer = document.createElement("div");
+        // Pokemon image
         let imageElement = document.createElement("img");
-        imageContainer.appendChild(imageElement);
-    
-        let oddsUpperLimit = 4;
-        let shinyResult = Math.floor(Math.random() * oddsUpperLimit) + 1;
-    
-        if (shinyResult == 1 ) {
-            imageElement.src = pokemon.sprites.front_shiny;
-            console.log("Shiny Pokemon found!");
-        } else {
-            imageElement.src = pokemon.sprites.front_default;
+        imageElement.className = "card-image h-48 object-cover w-full"; // Tailwind classes for the image
+        imageElement.src = pokemon.sprites.front_default; // Add the source for the image
+        cardContent.appendChild(imageElement);
+
+        // Pokemon name and types
+        let nameElement = document.createElement("h2");
+        nameElement.className = "card-title"; // Using DaisyUI card-title class
+        nameElement.textContent = pokemon.name;
+        cardContent.appendChild(nameElement);
+
+        let type1Element = document.createElement("div");
+        type1Element.textContent = "Type 1: " + pokemon.types[0].type.name;
+        cardContent.appendChild(type1Element);
+
+        if (pokemon.types[1]) {
+            let type2Element = document.createElement("div");
+            type2Element.textContent = "Type 2: " + pokemon.types[1].type.name;
+            cardContent.appendChild(type2Element);
         }
-        
-        newPokemonCard.appendChild(imageContainer);
-        
-		// Pokemon types
-		let type1Display = document.createElement("div")
-		let type2Display = document.createElement("div");
-	
-		type1Display.textContent = "Type 1: " + pokemon.types[0].type.name;
-		// type1Display.textContent = data.types[0]["type"]["name"];
-	
-		if (pokemon.types[1]){
-			// if the data includes a 2nd type, set that as well 
-			type2Display.textContent = "Type 2: " + pokemon.types[1].type.name;
-		} else {
-			// if no 2nd type exists, reset the content in type2Display
-			type2Display.textContent = "Type 2: ";
-	
-		}
 
-		newPokemonCard.appendChild(type1Display);
-		newPokemonCard.appendChild(type2Display);
+        card.appendChild(cardContent);
 
+        // Card actions (button container)
+        let cardActions = document.createElement("div");
+        cardActions.className = "card-actions justify-end p-4"; // Using DaisyUI card-actions class
 
-		// Pokemon cry button
-		let cryURL = pokemon.cries.latest;
-		let pokemonAudioElement = document.createElement("audio");
-		pokemonAudioElement.src = cryURL;
+        // Play Sound button
+        let playSoundButton = document.createElement("button");
+        playSoundButton.textContent = "Play Sound";
+        playSoundButton.className = "btn btn-primary"; // Using DaisyUI button classes
+        playSoundButton.onclick = function() {
+            // Add functionality to play the Pokémon cry
+            let audio = new Audio(pokemon.cries.latest); // Replace with the correct property if different
+            audio.play();
+        };
 
-		let pokemonAudioPlayButton = document.createElement("button");
-		pokemonAudioPlayButton.textContent = "Play Sound";
-		pokemonAudioPlayButton.addEventListener("click", () => {
-			pokemonAudioElement.volume = 0.1;
-			pokemonAudioElement.play();
-		});
+        cardActions.appendChild(playSoundButton);
+        card.appendChild(cardActions);
 
-		pokemonAudioPlayButton.appendChild(pokemonAudioElement);
-		newPokemonCard.appendChild(pokemonAudioPlayButton);
-
-     
-
-
-		// Apply all content to page
-		teamDisplaySection.appendChild(newPokemonCard);
-	});
+        // Append the card to the team display section
+        teamDisplaySection.appendChild(card);
+    });
 }
+
+
 
 async function getAndShowTeamData(){
 	let teamData = await generateTeamData();
@@ -197,4 +183,9 @@ async function getAndShowTeamData(){
 	showTeamData(teamData);	
 }
 
-document.getElementById("create-team").addEventListener("click", getAndShowTeamData);
+
+
+// Load a single Pokémon on page load
+document.addEventListener('DOMContentLoaded', function() {
+    getAndDisplayPokemonData();
+});

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // darkMode: 'class', 
   content: ["./src/**/*.{html,js}"],
   theme: {
     screens: {
@@ -29,5 +30,15 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require("daisyui")], 
+  daisyui: {
+    themes: true,
+    darkTheme: "dracula",
+    base: true,
+    styled: true,
+    utils: true,
+    prefix: "",
+    logs: true,
+    themeRoot: ":root"
+  }
 }
