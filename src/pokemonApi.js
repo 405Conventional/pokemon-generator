@@ -177,4 +177,5 @@ async function getAndShowTeamData(){
 // Load a single Pokémon on page load
 document.addEventListener('DOMContentLoaded', function() {
     getAndDisplayPokemonData();
+    getAndShowTeamData();
 });
