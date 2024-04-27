@@ -47,11 +47,12 @@ async function putDataOnPage(dataToDisplay){
 	let imageContainer = document.getElementsByClassName("pokemonImage")[0];
 	let imageElement = imageContainer.getElementsByTagName("IMG")[0];
 
-	let shinyResult = Math.floor(Math.random() * 4) + 1;
+	let oddsUpperLimit = 4;
+	let shinyResult = Math.floor(Math.random() * oddsUpperLimit) + 1;
 
 	if (shinyResult == 1 ) {
 		imageElement.src = dataToDisplay.sprites.front_shiny;
-		console.log("Shiny Pokemon found!")
+		console.log("Shiny Pokemon found!");
 	} else {
 		imageElement.src = dataToDisplay.sprites.front_default;
 	}
@@ -59,6 +60,18 @@ async function putDataOnPage(dataToDisplay){
 	
 
 	// document.querySelector(".pokemonImage img").src = dataToDisplay.sprites.front_default;
+
+
+
+	let cryURL = dataToDisplay.cries.latest;
+    let pokemonAudioElement = document.querySelector(".pokemonCry audio")
+	pokemonAudioElement.src = cryURL;
+
+	let pokemonAudioPlayButton = document.querySelector(".pokemonCry");
+	pokemonAudioPlayButton.addEventListener("click", () => {
+		pokemonAudioElement.volume = 0.1;
+		pokemonAudioElement.play();
+	});
 
 
 
