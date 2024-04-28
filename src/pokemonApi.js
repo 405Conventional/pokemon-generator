@@ -219,3 +219,28 @@ document.addEventListener('DOMContentLoaded', function() {
     getAndDisplayPokemonData();
     getAndShowTeamData();
 });
+
+// Persist themes across visits
+document.addEventListener('DOMContentLoaded', function () {
+    const themeControllers = document.querySelectorAll('.theme-controller');
+
+    // Apply the saved theme from local storage on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // Ensure the correct theme option is selected
+        themeControllers.forEach(controller => {
+            controller.checked = controller.value === savedTheme;
+        });
+    }
+
+    // Listen for changes in theme selection
+    themeControllers.forEach(controller => {
+        controller.addEventListener('change', function () {
+            if (this.checked) {
+                document.documentElement.setAttribute('data-theme', this.value);
+                localStorage.setItem('theme', this.value); // Save theme to local storage
+            }
+        });
+    });
+});
